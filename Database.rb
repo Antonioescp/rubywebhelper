@@ -18,17 +18,41 @@ class Database
   end
 
   # writes ruby structure to JSON
-  def self.write structure
+  def self.write structure = {webApps: []}
  
- 	# opens file in writing mode and saves new data
+ 	  # opens file in writing mode and saves new data
   	db = self.open 'w'
   	db.write JSON.generate(structure)
   	db.close
  
   end
+
+  # opens database with read-only permission as default
+  def self.open permission = 'r'
+
+    # checks file existance
+    if File.exist? DATABASE_NAME
+
+      # opens file
+      db = File.open DATABASE_NAME, permission
+
+    else
+
+      # creates file
+      db = File.open DATABASE_NAME, 'w+'
+      self.write
+
+    end
+
+    # returns database
+    return db
+  end
   
   # saves data to database
   def self.save webInfo = {}
+
+    # creates file if it doesn't exist
+    self.read unless File.exist? DATABASE_NAME
 
   	# reads database
   	db = self.read
@@ -41,28 +65,17 @@ class Database
 
   end
 
-  # opens database with read-only permission as default
-  def self.open permission = 'r'
-
-  	# checks file existance
-  	if File.exist? DATABASE_NAME
-
-  	  # opens file
-  	  db = File.open DATABASE_NAME, permission
-
-  	else
-
-  	  # creates file
-  	  db = File.open DATABASE_NAME, 'w+'
-  	  self.write db, {webApps: []}
-
-  	end
-
-  	# returns database
-  	return db
-  end
-
   # opens database and looks for an item
-  def self.search webInfo = {}
+  def self.search name
+
+    # found status flag
+    found = nil
+
+    # look for the app by name
+    self.read()["webApps"].each do | webApp |
+      found = true if webApp["name"] == name
+    end
+
+    return found
   end
 end
