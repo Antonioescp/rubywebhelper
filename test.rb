@@ -1,3 +1,7 @@
-require_relative './appManager.rb'
+require_relative 'Database.rb'
 
-pp Database.open
+webInfo = {name: "test", dir: 'newdir'}
+
+Database.save webInfo
+
+pp Database.read
