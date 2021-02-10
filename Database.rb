@@ -1,4 +1,3 @@
-
 require_relative 'preloader.rb'
 
 # manages a database in JSON format
@@ -23,14 +22,25 @@ class Database
     # creates file if it doesn't exist
     self.read unless self.exist?
 
-    # reads database
-    db = self.read
+    # checks if app already exist in db
+    if self.search webInfo["info"]
 
-    # inserts new data
-    db["webApps"].push webInfo
+      return false
 
-    # saves to database
-    self.write db
+    else
+
+      # reads database
+      db = self.read
+
+      # inserts new data
+      db["webApps"].push webInfo
+
+      # saves to database
+      self.write db
+
+      return true
+      
+    end
 
   end
   

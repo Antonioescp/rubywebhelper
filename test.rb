@@ -1,3 +1,3 @@
-require_relative 'Database.rb'
+require_relative 'App.rb'
 
-Database.list
+App.create "test", "test folder"
