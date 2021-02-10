@@ -1,3 +1,6 @@
 require_relative 'App.rb'
 
-App.create "test", "test folder"
+App.create "test", "newApp"
+App.create "red", "newApp"
+
+Database.list

@@ -20,10 +20,14 @@ class App
 
   	# inserting title to document
   	htmlcontent.insert(htmlcontent.index("<title>") + "<title>".length, title)
-  	webApp = {name: "#{title}", dir: PROJECTS_DIR + foldername.downcase}
+  	webApp = {"name" => "#{title}", "dir" => PROJECTS_DIR + foldername.downcase}
 
   	# saving to database
-  	Database.save webApp
+  	if Database.save webApp
+      puts "Aplicacion guardada"
+    else
+      puts "Aplicacion ya existe"
+    end
   	
   end
 

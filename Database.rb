@@ -23,11 +23,7 @@ class Database
     self.read unless self.exist?
 
     # checks if app already exist in db
-    if self.search webInfo["info"]
-
-      return false
-
-    else
+    unless self.search(webInfo["dir"])
 
       # reads database
       db = self.read
@@ -39,21 +35,25 @@ class Database
       self.write db
 
       return true
+
+    else
+
+      return false
       
     end
 
   end
   
   # opens database and looks for an item
-  def self.search name
+  def self.search appDir
 
     # found status flag
-    found = nil
+    found = false
 
     # look for the app by name
     self.read()["webApps"].each do | webApp |
-      found = true if webApp["name"] == name
-    end
+      found = true if webApp["dir"] == appDir
+  	end
 
     return found
   end
