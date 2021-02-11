@@ -3,8 +3,6 @@ require_relative 'preloader.rb'
 # manages a database in JSON format
 class Database
 
-  DATABASE_NAME = 'dirs.json'
-
   # reads database content
   def self.read
  
@@ -45,7 +43,9 @@ class Database
   end
   
   # opens database and looks for an item
-  def self.search appDir
+  def self.search appDir, byFolderName = false
+
+  	appDir = PROJECTS_DIR + "#{appDir}" if byFolderName == true
 
     # found status flag
     found = false
@@ -78,6 +78,43 @@ class Database
     end
 
   end
+
+  ###
+  # Documents treatment
+  ###
+
+  # reads a file and returns its content
+  def self.readFile dir
+  	return File.open(dir, 'r').read
+  end
+
+  # copies a file to a directory
+  def self.copyFile source, destiny
+  	self.writeFile destiny, self.readFile(source)
+  end
+
+  # writes to file
+  def self.writeFile target, content
+  	f = File.open target, 'w'
+  	f.write content
+  	f.close
+  end
+
+  # HTML modifications
+  def self.insertHTMLTitle doc, title
+  	doc.insert(doc.index("<title>") + "<title>".length, title)
+
+  	return doc
+  end
+
+  # creates ruby webapp structure
+  def self.buildAppHash title, foldername
+  	return {"name" => title, "dir" => PROJECTS_DIR + foldername}
+  end
+
+  ###
+  # End of Document treatment
+  ###
 
   private
 
