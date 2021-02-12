@@ -3,6 +3,30 @@ require_relative 'preloader.rb'
 # manages a database in JSON format
 class Database
 
+  # deletes an app from database and disk
+  def self.deleteApp webAppPosition = false
+
+    # if index is not false
+    if webAppPosition
+
+      # reads database
+      db = self.read
+
+      # deletes app folder
+      FileUtils.rm_rf(db["webApps"][webAppPosition]["dir"])
+
+      # deletes app from database
+      db["webApps"].delete_at(webAppPosition)
+      self.write db
+
+      return true
+    else
+
+      return false
+    
+    end
+  end
+
   # reads database content
   def self.read
  
@@ -50,9 +74,11 @@ class Database
     # found status flag
     found = false
 
-    # look for the app by name
+    position = 0
+    # looks for the app by name
     self.read()["webApps"].each do | webApp |
-      found = true if webApp["dir"] == appDir
+      found = position if webApp["dir"] == appDir
+      position += 1
   	end
 
     return found

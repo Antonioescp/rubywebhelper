@@ -3,27 +3,33 @@ require_relative "Database.rb"
 # main class for app management
 class App
 
+  # deletes every app created until now
+  def self.deleteAll
+    # list all apps before deleting
+    puts 'This apps will be deleted'
+    Database.list
+    db = Database.read
+
+    # deletes every directory
+    db["webApps"].length.times do | num |
+      Database.deleteApp 0
+    end
+
+
+  end
+
   # deletes an existing app
   def self.delete foldername
 
     print 'app '
 
     # checks app existence
-    if Database.search foldername, true
+    if webApp = Database.search(foldername, true)
 
       puts 'exists'.green
-      puts "sure you want to delete #{foldername}?(y/n)"
-      response = gets.chomp
+      print "deleting app.."
 
-      if response == 'y'
-        print "deleting app.."
-
-        # code for deleting an app goes here
-
-        puts 'done'.green
-      else
-        puts "app will not be deleted".yellow
-      end
+      puts 'done'.green if Database.deleteApp webApp
 
     else
       puts 'doesnt exist'.yellow

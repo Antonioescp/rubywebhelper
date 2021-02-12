@@ -8,7 +8,7 @@ require 'fileutils'
   CSS_FILE_DIR = 'templates/style.css'.freeze
   SCRIPT_FILE_DIR = 'templates/script.js'.freeze
   	# dir were projects will be saved
-  PROJECTS_DIR = '/home/ani/Documentos/'.freeze
+  PROJECTS_DIR = 'C:\Users\Anahi Ponce\Documents\Toni\Proyectos/'.freeze
 
   # Database info
-  DATABASE_NAME = 'dirs.json'
+  DATABASE_NAME = 'dirs.json'.freeze
