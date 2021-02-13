@@ -2,6 +2,11 @@ require 'console-colors'
 require 'json'
 require 'fileutils'
 
+# browserSync
+require_relative 'Server.rb'
+
+# sublime text
+require_relative 'Sublime.rb'
 
   # dirs and files
   HTML_FILE_DIR = 'templates/template.html'.freeze
